@@ -1,8 +1,10 @@
 package com.example.a20200318_04_listview_test;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -55,11 +57,27 @@ public class MainActivity extends BaseActivity {
 
         binding.roomListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
 
 //                꾹 누르고 있으면, 해당 방의 설명을 Toast로 출력
-                Room data = roomDatas.get(position);
-                Toast.makeText(mContext, data.getDescription(), Toast.LENGTH_SHORT).show();
+//                Room data = roomDatas.get(position);
+//                Toast.makeText(mContext, data.getDescription(), Toast.LENGTH_SHORT).show();
+
+                AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
+                alert.setTitle("방 삭제 확인");
+                alert.setMessage("정말 이 방을 삭제하시겠습니까?");
+                alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        roomDatas.remove(position);
+
+                        roomAdapter.notifyDataSetChanged();
+                    }
+                });
+                alert.setNegativeButton("취소", null);
+                alert.show();
+
+
 
                 return true; // true : 롱클릭만. false : 그냥클릭도 같이.
             }
