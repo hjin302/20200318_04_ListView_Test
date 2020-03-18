@@ -50,7 +50,7 @@ public class RoomAdapter extends ArrayAdapter<Room> {
             int uk = data.getPrice() / 10000;
             int thousand = data.getPrice() % 10000;
 
-            priceTxt.setText(String.format("%d억 %,d", data.getPrice()));
+            priceTxt.setText(String.format("%d억 %,d", uk, thousand));
         }else{
             priceTxt.setText(String.format("%,d", data.getPrice()));
         }
@@ -65,7 +65,9 @@ public class RoomAdapter extends ArrayAdapter<Room> {
             floorStr = String.format("지하 %d층", data.getFloor()*-1);
         }
 
-        addressAndFloorTxt.setText(String.format("%s, %d층", data.getAdress(), floorStr));
+        addressAndFloorTxt.setText(String.format("%s, %s", data.getAdress(), floorStr));
+
+        descTxt.setText(data.getDescription());
 
         return row;
     }
